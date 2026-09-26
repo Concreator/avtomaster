@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-приёмщик для автосервиса — заявки 24/7 | ЮгСпецСети</title>
+<meta name="description" content="ИИ-приёмщик для СТО от ЮгСпецСети: отвечает за 15–30 секунд, записывает на сервис, ведёт в YCLIENTS/CRM. Посчитайте потери в калькуляторе.">
+<style>
+:root{
+  --bg:#0c1118; --bg2:#111927; --card:#16202f; --card2:#1b2940;
+  --line:#26374e; --txt:#e8eef6; --mut:#93a5bd; --dim:#5f7189;
+  --acc:#ff8a1e; --acc2:#ffb35c; --grn:#2fd08c; --blu:#4da3ff; --red:#ff5d5d;
+  --grad:linear-gradient(135deg,#ff8a1e,#ff5d3a);
+  --rad:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.6;font-size:16px}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+a{color:var(--blu);text-decoration:none}
+h1,h2,h3{line-height:1.25;font-weight:700}
+h2{font-size:clamp(24px,3.4vw,36px);margin-bottom:14px}
+.sub{color:var(--mut);max-width:760px;margin-bottom:36px}
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;background:rgba(255,138,30,.12);color:var(--acc);border:1px solid rgba(255,138,30,.35);border-radius:99px;padding:4px 14px;font-size:13px;font-weight:600;letter-spacing:.4px;margin-bottom:16px;text-transform:uppercase}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:900px){.grid3,.grid4{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.grid2,.grid3,.grid4{grid-template-columns:1fr}section{padding:52px 0}}
+header{position:sticky;top:0;z-index:50;background:rgba(12,17,24,.92);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--txt)}
+.logo .mark{width:34px;height:34px;border-radius:9px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:800}
+.logo small{display:block;font-weight:400;color:var(--mut);font-size:11px;line-height:1.2}
+nav{display:flex;gap:22px;font-size:14px}
+nav a{color:var(--mut);transition:.2s}
+nav a:hover{color:var(--acc)}
+@media(max-width:900px){nav{display:none}}
+.hd-cta{background:var(--grad);color:#fff;padding:9px 18px;border-radius:10px;font-weight:600;font-size:14px}
+.hero{padding:84px 0 72px;background:
+  radial-gradient(900px 400px at 80% -10%,rgba(255,138,30,.14),transparent 60%),
+  radial-gradient(700px 400px at 10% 110%,rgba(77,163,255,.1),transparent 60%),var(--bg)}
+.hero h1{font-size:clamp(28px,4.6vw,50px);max-width:900px}
+.hero h1 span{color:var(--acc2)}
+.hero .pers{margin-top:18px;color:var(--mut);font-size:15px}
+.hero .pers b{color:var(--txt)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+@media(max-width:900px){.hero-stats{grid-template-columns:1fr 1fr}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:20px}
+.stat .v{font-size:clamp(22px,2.6vw,30px);font-weight:800;color:var(--acc2)}
+.stat .l{color:var(--mut);font-size:13px;margin-top:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:26px}
+.card h3{margin-bottom:8px;font-size:18px}
+.card p{color:var(--mut);font-size:14.5px}
+.icn{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;background:rgba(255,138,30,.13)}
+.flow{display:flex;flex-direction:column;gap:0;align-items:center;margin-top:10px}
+.fnode{width:100%;max-width:640px;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px 22px;position:relative}
+.fnode b{color:var(--acc2)}
+.fnode .role{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:4px}
+.fnode ul{margin:8px 0 0 18px;color:var(--mut);font-size:14px}
+.fnode ul li{margin-bottom:5px}
+.fnode p.note2{color:var(--mut);font-size:14px;margin-top:8px}
+.farrow{width:2px;height:34px;background:linear-gradient(#ff8a1e,transparent);position:relative}
+.farrow:after{content:"\25BC";position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);color:var(--acc);font-size:11px}
+.branch{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:900px}
+@media(max-width:640px){.branch{grid-template-columns:1fr}}
+.bnode{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;border-top:3px solid var(--blu)}
+.bnode.orange{border-top-color:var(--acc)}
+.bnode ul{margin:10px 0 0 18px;color:var(--mut);font-size:14px}
+.bnode ul li{margin-bottom:6px}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.pill.b{background:rgba(77,163,255,.14);color:var(--blu)}
+.pill.o{background:rgba(255,138,30,.14);color:var(--acc)}
+.chat{background:#0f1622;border:1px solid var(--line);border-radius:var(--rad);overflow:hidden}
+.chat-hd{background:var(--card2);padding:12px 18px;font-size:13px;color:var(--mut);display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}
+.chat-bd{padding:20px;display:flex;flex-direction:column;gap:12px;min-height:380px}
+.msg{max-width:82%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.5;opacity:0;transform:translateY(8px);animation:msgin .45s forwards}
+@keyframes msgin{to{opacity:1;transform:none}}
+.msg.u{align-self:flex-end;background:#24344d;border-bottom-right-radius:4px}
+.msg.a{align-self:flex-start;background:var(--card2);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.sys{align-self:center;background:rgba(47,208,140,.1);border:1px solid rgba(47,208,140,.3);color:var(--grn);font-size:13px;text-align:center;max-width:92%}
+.msg .who{display:block;font-size:11px;color:var(--dim);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.msg.a .who{color:var(--acc)}
+.chat-replay{margin-top:14px;text-align:center}
+.btn{display:inline-block;background:var(--grad);color:#fff;border:none;padding:12px 26px;border-radius:11px;font-weight:600;font-size:15px;cursor:pointer;transition:.2s;text-align:center}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--mut)}
+.btn.ghost:hover{color:var(--txt);border-color:var(--acc)}
+.calc{display:grid;grid-template-columns:1.15fr .85fr;gap:24px}
+@media(max-width:900px){.calc{grid-template-columns:1fr}}
+.cpanel{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:28px}
+.crow{margin-bottom:22px}
+.crow label{display:flex;justify-content:space-between;font-size:14px;color:var(--mut);margin-bottom:8px}
+.crow label b{color:var(--txt);font-size:15px;white-space:nowrap}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--line);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--acc);cursor:pointer;border:3px solid rgba(255,255,255,.2);box-shadow:0 0 0 2px var(--acc)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--acc);cursor:pointer;border:none}
+.results{background:linear-gradient(160deg,#1a2638,#141d2c);border:1px solid var(--line);border-radius:var(--rad);padding:28px}
+@media(min-width:901px){.results{position:sticky;top:84px}}
+.rline{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;gap:10px}
+.rline .rv{font-weight:700;font-size:17px;white-space:nowrap}
+.rline.loss .rv{color:var(--red)}
+.rline.sol .rv{color:var(--blu)}
+.rline.gain .rv{color:var(--grn)}
+.rline.ltv .rv{color:var(--acc2)}
+.rbig{margin-top:18px;text-align:center;background:rgba(255,138,30,.08);border:1px solid rgba(255,138,30,.3);border-radius:14px;padding:20px}
+.rbig .cap{color:var(--mut);font-size:13px}
+.rbig .val{font-size:clamp(30px,4vw,42px);font-weight:800;color:var(--acc2)}
+.rbig .sub2{color:var(--mut);font-size:13px;margin-top:4px}
+.note{font-size:12.5px;color:var(--dim);margin-top:14px}
+.scn{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:26px;border-top:4px solid var(--dim)}
+.scn.a{border-top-color:var(--red)}
+.scn.b{border-top-color:var(--blu)}
+.scn.v{border-top-color:var(--grn);background:linear-gradient(170deg,#16233a,#141d2c)}
+.scn h3{font-size:17px;margin-bottom:4px}
+.scn .prob{font-size:12px;color:var(--dim);margin-bottom:12px}
+.scn ul{margin:0 0 0 18px;color:var(--mut);font-size:14px}
+.scn ul li{margin-bottom:7px}
+.scn .sum{margin-top:14px;font-weight:700;font-size:15px}
+.scn.a .sum{color:var(--red)} .scn.b .sum{color:var(--blu)} .scn.v .sum{color:var(--grn)}
+.price-hero{background:linear-gradient(160deg,#1c2940,#141d2c);border:1px solid rgba(255,138,30,.35);border-radius:var(--rad);padding:34px;display:grid;grid-template-columns:1.2fr .8fr;gap:26px}
+@media(max-width:800px){.price-hero{grid-template-columns:1fr}}
+.pbig{font-size:clamp(34px,4.5vw,48px);font-weight:800}
+.plist{margin:14px 0 0 18px;color:var(--mut);font-size:14.5px}
+.plist li{margin-bottom:8px}
+.plist li b{color:var(--txt)}
+.bonus{display:flex;gap:14px;margin-top:18px;flex-wrap:wrap}
+.bonus div{background:rgba(47,208,140,.1);border:1px solid rgba(47,208,140,.3);border-radius:11px;padding:10px 16px;font-size:13px;color:var(--grn)}
+.tl{position:relative;margin-top:8px}
+.tl:before{content:"";position:absolute;left:19px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tstep{position:relative;padding:0 0 26px 56px}
+.tstep .dot{position:absolute;left:8px;top:2px;width:24px;height:24px;border-radius:50%;background:var(--card2);border:2px solid var(--acc);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--acc)}
+.tstep h3{font-size:16px}
+.tstep .d{font-size:12px;color:var(--acc);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.tstep p{color:var(--mut);font-size:14px}
+.stake{border-left:3px solid var(--acc);background:var(--card);border-radius:0 var(--rad) var(--rad) 0;padding:22px 24px}
+.stake h3{font-size:16px;margin-bottom:8px}
+.stake ul{margin-left:18px;color:var(--mut);font-size:14px}
+.stake ul li{margin-bottom:6px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:12px}
+details summary{cursor:pointer;font-weight:600;font-size:15px;list-style:none}
+details summary:before{content:"+";color:var(--acc);margin-right:10px;font-weight:800}
+details[open] summary:before{content:"\2013"}
+details p{color:var(--mut);font-size:14px;margin-top:10px}
+.expect{background:rgba(77,163,255,.06);border:1px solid rgba(77,163,255,.25);border-radius:var(--rad);padding:28px}
+.expect h3{color:var(--blu);margin-bottom:14px}
+.expect ul{margin-left:20px;color:var(--mut);font-size:14.5px}
+.expect ul li{margin-bottom:9px}
+footer{background:#090d13;padding:52px 0 34px;font-size:13.5px;color:var(--mut)}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:30px;margin-bottom:30px}
+@media(max-width:800px){.fgrid{grid-template-columns:1fr}}
+footer h4{color:var(--txt);font-size:14px;margin-bottom:12px}
+footer .disc{border-top:1px solid var(--line);padding-top:22px;font-size:12px;color:var(--dim);line-height:1.7}
+.slogan{margin:6px 0 14px;font-size:15px;color:var(--acc2);font-weight:600}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card2);border:1px solid var(--acc);color:var(--txt);padding:12px 22px;border-radius:12px;font-size:14px;opacity:0;transition:.35s;z-index:99;max-width:90%;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <div class="logo">
+      <div class="mark">🔧</div>
+      <div>ЮгСпецСети
+        <small>Агентство автоматизации · AI-Интеграция</small>
+      </div>
+    </div>
+    <nav>
+      <a href="#problem">Потери</a>
+      <a href="#arch">Решение</a>
+      <a href="#demo">Демо-диалог</a>
+      <a href="#calc">Калькулятор</a>
+      <a href="#pricing">Условия</a>
+    </nav>
+    <a href="#cta" class="hd-cta">Обсудить проект</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="tag">ИИ-приёмщик для автосервиса · работает 24/7</div>
+    <h1>Вы под машиной — <span>клиент уже звонит конкуренту</span>. ИИ-приёмщик — всегда на связи</h1>
+    <p class="pers">ИИ-приёмщик отвечает за <b>15–30 секунд</b> в VK, на Авито и в мессенджерах: квалифицирует, записывает на сервис, ведёт в <b>YCLIENTS, CRM или календарь</b>. Ночью, в выходные, когда руки в масле.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="v">~ 15 в день</div><div class="l">обращений: звонки, Авито, VK, мессенджеры? — вам стоит обратить внимание на наше предложение</div></div>
+      <div class="stat"><div class="v">~ 30 в мес</div><div class="l">заявок теряется: ночь, задержки, «перезвоните»? — вам точно стоит дочитать эту страницу до конца</div></div>
+      <div class="stat"><div class="v">8 000 ₽</div><div class="l">средний чек по рынку — и это только первый визит, без повторных. А упускаете вы его под 30 раз в месяц</div></div>
+      <div class="stat"><div class="v">15–30 сек</div><div class="l">ответ нашего ИИ-приёмщика — клиент не успевает уйти к конкуренту</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="tag">Диагностика</div>
+    <h2>Где мастерская теряет деньги</h2>
+    <p class="sub">Три точки слива, которые видно в любом СТО. Проверьте себя — и посчитайте в калькуляторе ниже.</p>
+    <div class="grid3">
+      <div class="card"><div class="icn">💬</div><h3>Сообщение без ответа</h3><p>Клиент пишет вечером в VK, на Авито, в мессенджер — а вы под машиной или уже дома. Утром он уже записан в другой сервис. Мы делаем ботов для переписки: ответ за 15–30 секунд, вопрос не висит без ответа.</p></div>
+      <div class="card"><div class="icn">📉</div><h3>Авито опускает молчунов</h3><p>Скорость ответа влияет на ранжирование: отвечаете через часы — объявление ползёт вниз, и вас находят реже. Подробно с кейсами — в нашей статье про скорость ответа.</p></div>
+      <div class="card"><div class="icn">🔁</div><h3>Потерянный — навсегда</h3><p>Ушедший клиент — это не один чек, а годы: ТО, шины, колодки, ремонт. Потеряли раз — потеряли все его будущие визиты. В калькуляторе это строка «с учётом повторных обращений».</p></div>
+    </div>
+    <p class="sub" style="margin-top:22px;max-width:100%">📖 По теме: <a href="https://югспецсети.рф/news/tpost/7phi1yicg1-kak-skorost-otveta-vliyaet-na-ranzhirova" target="_blank" rel="noopener">как скорость ответа влияет на ранжирование</a> · <a href="https://югспецсети.рф/news/tpost/23ic6frm01-tri-biznes-dogmi-iz-za-kotorih-malii-biz" target="_blank" rel="noopener">три догмы потери лидов</a> · кейс автоимпорта: ответ 30 сек, +340 тыс. ₽/мес.</p>
+  </div>
+</section>
+
+<section id="arch">
+  <div class="wrap">
+    <div class="tag">Архитектура решения</div>
+    <h2>Как работает ИИ-приёмщик</h2>
+    <p class="sub">Один агент на первой линии: квалифицирует, записывает, доводит до визита. Сложное — человеку с полной сводкой.</p>
+    <div class="flow">
+      <div class="fnode">
+        <div class="role">Вход · любой канал · 24/7</div>
+        <b>Обращение клиента:</b> VK, Авито, сайт, мессенджеры — вечером, ночью, в выходные
+      </div>
+      <div class="farrow"></div>
+      <div class="fnode" style="border-color:var(--acc)">
+        <div class="role">ИИ-приёмщик · первый контакт · на «вы»</div>
+        <b>Выясняет четыре вещи:</b> машина (марка/модель/год), симптом, срочность, удобное окно. Дальше — одна из трёх дорог:
+        <ul>
+          <li>🔧 <b>Запись на сервис</b> — окно в YCLIENTS/CRM/календаре, подтверждение номера</li>
+          <li>❓ <b>Вопрос по симптому</b> — отвечает по базе: вилка цены, что проверить, сколько по времени</li>
+          <li>🚨 <b>Нестандарт</b> — эскалация мастеру с полной сводкой диалога</li>
+        </ul>
+      </div>
+      <div class="farrow"></div>
+      <div class="branch">
+        <div class="bnode">
+          <span class="pill b">Ветка «Запись»</span>
+          <ul>
+            <li>Подбор окна под клиента, запись и подтверждение</li>
+            <li><b>Саммари мастеру:</b> машина, симптом, срочность, телефон</li>
+            <li>Напоминание о визите — через вашу систему: календарь, воронка CRM, YClients</li>
+            <li>Дожим «подумавших» по истории — через день/неделю</li>
+          </ul>
+        </div>
+        <div class="bnode orange">
+          <span class="pill o">Ветка «Вопрос»</span>
+          <ul>
+            <li>Техподдержка по описанию: «похоже на…», вилка цены и сроков</li>
+            <li>Диагноз — предположение, приговор — только на подъёмнике</li>
+            <li>Цену «с потолка» не называет — только вилку или диагностику</li>
+            <li>Сложное — мастеру, FAQ — сам</li>
+          </ul>
+        </div>
+      </div>
+      <div class="farrow"></div>
+      <div class="fnode">
+        <div class="role">Честно о границах</div>
+        <b>Чего ИИ-приёмщик не делает сам:</b> автонапоминания в чат без связки. Напоминание срабатывает из вашей системы — Google-календарь, воронка CRM или YClients. Подключим к тому, чем вы уже пользуетесь.
+        <p class="note2">Каналы: VK, Авито, Юла, сайт (виджет), Telegram, MAX, WhatsApp · Интеграции: YCLIENTS, amoCRM/Bitrix24, Google Calendar/Таблицы, ЮKassa (предоплата в переписке).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="tag">Демо-диалог</div>
+    <h2>Так выглядит обращение ночью</h2>
+    <p class="sub">Условный пример: клиенту в 23:47 стучит спереди справа, мастерская закрыта. Нажмите «Запустить диалог».</p>
+    <div class="chat">
+      <div class="chat-hd"><span>MAX · 23:47 · клиент, мастерская закрыта</span><span>🟢 ИИ-приёмщик на линии</span></div>
+      <div class="chat-bd" id="chatBody"></div>
+    </div>
+    <div class="chat-replay"><button class="btn" id="chatBtn">▶ Запустить диалог</button></div>
+    <div class="card" style="margin-top:22px;text-align:center;border-color:var(--grn)">
+      <h3 style="color:var(--grn)">🤖 Поговорите с живым приёмщиком прямо сейчас</h3>
+      <p>Это демо-агент Александр: спросите про стук, цену диагностики или запишитесь на окно — отвечает за секунды.</p>
+      <div style="margin-top:14px">
+        <a class="btn" href="https://max.ru/id910614084910_1_bot" target="_blank" rel="noopener">Поговорить в MAX</a>
+        <a class="btn ghost" href="https://telegram.me/resepshn24bot" target="_blank" rel="noopener" style="margin-left:10px">Поговорить в Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calc">
+  <div class="wrap">
+    <div class="tag">Калькулятор · модель под СТО</div>
+    <h2>Посчитайте сами — каждую цифру видно</h2>
+    <p class="sub">Двигайте ползунки: модель мгновенно пересчитает потери, стоимость решения и окупаемость. Отдельная строка — потери с учётом повторных визитов клиента.</p>
+    <div class="calc">
+      <div class="cpanel">
+        <div class="crow"><label>Обращений в день <b><span id="vLeads">15</span></b></label><input type="range" id="leads" min="5" max="60" value="15"></div>
+        <div class="crow"><label>Часов на первичку в день <b><span id="vHours">2</span> ч</b></label><input type="range" id="hours" min="1" max="20" value="2"></div>
+        <div class="crow"><label>Стоимость часа <b><span id="vRate">500</span> ₽</b></label><input type="range" id="rate" min="200" max="1500" step="50" value="500"></div>
+        <div class="crow"><label>Потерянных заявок в месяц <b><span id="vLost">30</span></b></label><input type="range" id="lost" min="0" max="150" value="30"></div>
+        <div class="crow"><label>Средний чек <b><span id="vCheck">8 000</span> ₽</b></label><input type="range" id="check" min="2000" max="60000" step="1000" value="8000"></div>
+        <div class="crow"><label>Маржа <b><span id="vMargin">40</span>%</b></label><input type="range" id="margin" min="5" max="80" value="40"></div>
+        <div class="crow"><label>Визитов в год от постоянного клиента <b><span id="vVisits">3</span></b></label><input type="range" id="visits" min="1" max="10" value="3"></div>
+        <div class="crow"><label>Доля обращений, закрываемых агентом <b><span id="vCap">65</span>%</b></label><input type="range" id="cap" min="30" max="90" value="65"></div>
+        <p class="note">Доплата за токены зависит от модели, глубины диалога и размера контекста — считаем вместе на созвоне. Ориентир: ±20% от тарифа, точная цена фиксируется в договоре после ТЗ.</p>
+      </div>
+      <div class="results">
+        <div class="rline loss"><span>Потери на рутине / мес</span><span class="rv" id="rLabor">—</span></div>
+        <div class="rline loss"><span>Упущенная прибыль (разовые) / мес</span><span class="rv" id="rSales">—</span></div>
+        <div class="rline loss"><span><b>Итого теряется / мес</b></span><span class="rv" id="rLoss">—</span></div>
+        <div class="rline ltv"><span><b>С учётом повторных визитов (год)</b></span><span class="rv" id="rLtv">—</span></div>
+        <div class="rline sol"><span>Тариф СТАРТ (агент, вкл. 5 000 ₽ токенов)</span><span class="rv">от 19 900 ₽</span></div>
+        <div class="rline gain"><span>Возвращаем агентом / мес</span><span class="rv" id="rRec">—</span></div>
+        <div class="rline gain"><span><b>Чистый выигрыш / мес</b></span><span class="rv" id="rNet">—</span></div>
+        <div class="rbig">
+          <div class="cap">Окупаемость аренды (6 мес, 107 460 ₽)</div>
+          <div class="val" id="rPay">—</div>
+          <div class="sub2" id="rRoi">—</div>
+        </div>
+        <div style="margin-top:16px;text-align:center">
+          <button class="btn" id="copyBtn">📋 Скопировать расчёт</button>
+          <p class="note">Кнопка копирует параметры и итоги — отправьте нам, зафиксируем как ориентировочные KPI в техзадании.</p>
+        </div>
+        <p class="note">Расчёт ориентировочный, результаты индивидуальны (38-ФЗ). Точную модель зафиксируем в ТЗ после аудита.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="scen">
+  <div class="wrap">
+    <div class="tag">Три сценария на 12 месяцев</div>
+    <h2>Честная вилка вариантов</h2>
+    <div class="grid3">
+      <div class="scn a"><h3>А · Статус-кво</h3><div class="prob">Ничего не меняем</div>
+        <ul><li>Ночные и выходные заявки продолжают уходить конкурентам</li><li>Авито опускает медленные объявления всё ниже</li><li>Рост потока = найм приёмщика: +60–100 тыс. ₽/мес, без решения 24/7</li></ul>
+        <div class="sum">Вероятность: высокая</div></div>
+      <div class="scn b"><h3>Б · Только запись</h3><div class="prob">Частичная автоматизация (дискретный чат-бот)</div>
+        <ul><li>Окна занимаются сами, скорость первого ответа выросла</li><li>Но вопросы по симптомам и ценам по-прежнему ждут человека</li><li>Экономия частичная, главные потери остаются</li></ul>
+        <div class="sum">Вероятность: средняя</div></div>
+      <div class="scn v"><h3>В · Приёмщик 24/7</h3><div class="prob">Полная первая линия</div>
+        <ul><li>Квалификация + запись + ответы по симптомам, 15–30 секунд</li><li>от 19 900 ₽/мес против потерь + возврат ночных клиентов с их LTV</li><li>Вы и мастера занимаетесь машинами, а не перепиской</li></ul>
+        <div class="sum">Рекомендуемый сценарий</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="tag">Условия проекта</div>
+    <h2>Прозрачная структура цены</h2>
+    <div class="price-hero">
+      <div>
+        <div style="color:var(--mut);font-size:14px">Тариф СТАРТ · один агент-приёмщик · аренда от 6 месяцев</div>
+        <div class="pbig">19 900 ₽<span style="font-size:18px;color:var(--mut);font-weight:400"> /мес</span></div>
+        <ul class="plist">
+          <li>Внутри — <b>5 000 ₽/мес на токены</b>; остальное — разработка (разбита на 12 месяцев) и сопровождение весь период</li>
+          <li>YCLIENTS, календарь, Bitrix24 и amoCRM — <b>в базе</b>, входят в настройку. Сторонняя CRM, которой нет в базе — <b>11 000 ₽ разово</b></li>
+          <li>Вход — <b>19 900 ₽</b> при аренде от 6 мес. Возможен <b>пилот на 2 месяца</b> на 1–2 каналах — <b>40 000 ₽</b> сразу</li>
+          <li>Цена ориентировочная: обычно <b>±20%</b> в зависимости от модели, глубины диалога и контекста — точная фиксируется в договоре после ТЗ</li>
+          <li>Оплата 6 месяцев разом: <b>107 460 ₽</b> вместо 119 400 ₽ (−10%)</li>
+          <li>Аренда — логика агента остаётся собственностью агентства</li>
+          <li>Возможна <b>разработка под ключ</b> — условия обсудим на встрече</li>
+          <li>Гарантия: 30 дней на соответствие ТЗ</li>
+        </ul>
+      </div>
+      <div>
+        <div class="bonus">
+          <div>🎁 Экспресс-аудит — 4 500 ₽ (зачтём при старте)</div>
+          <div>🎁 Техзадание — бонус</div>
+        </div>
+        <div class="card" style="margin-top:18px;background:rgba(255,138,30,.06)"><h3 style="color:var(--acc2)">Почему минимум 6 месяцев — честно</h3><p>Настройка под вашу номенклатуру, цены и окна занимает 1–2 месяца до целевого качества. Контракт короче — деньги на ветер для обеих сторон.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="wrap">
+    <div class="tag">План внедрения · 30 дней</div>
+    <h2>От договора до работающего приёмщика</h2>
+    <div class="grid2" style="align-items:start">
+      <div class="tl">
+        <div class="tstep"><div class="dot">1</div><div class="d">Дни 1–7</div><h3>Аудит и техзадание</h3><p>Ваши услуги, цены, окна, топ-вопросы клиентов. Выход: утверждённое ТЗ.</p></div>
+        <div class="tstep"><div class="dot">2</div><div class="d">Дни 8–14</div><h3>Сборка ИИ-приёмщика</h3><p>База знаний, маршрутизация, интеграция YCLIENTS/CRM/каналов. Выход: тестовый контур.</p></div>
+        <div class="tstep"><div class="dot">3</div><div class="d">Дни 15–21</div><h3>Внутренние тесты</h3><p>Прогон на ваших типовых обращениях вместе с вами. В бой — только проверенная конфигурация.</p></div>
+        <div class="tstep"><div class="dot">4</div><div class="d">Дни 22–30</div><h3>Первый канал под контролем</h3><p>Один канал на реальных клиентах: уведомление на каждый диалог, пауза и перехват в один клик.</p></div>
+      </div>
+      <div>
+        <div class="expect">
+          <h3>📋 Реалистичные ожидания — важно</h3>
+          <ul>
+            <li><b>Адаптация:</b> 1–2 недели — база, 1–2 месяца — целевое качество.</li>
+            <li><b>Без ваших цен и окон</b> приёмщик не взлетит — данные собираем вместе в первую неделю.</li>
+            <li><b>Первый месяц</b> — ваша обратная связь по качеству ответов.</li>
+          </ul>
+        </div>
+        <div class="card" style="margin-top:18px"><h3>🛡 Гарантии</h3><p>30 дней на соответствие техзаданию · доступность сервиса ≥ 99,5% · соответствие 152-ФЗ · официальный договор, оплата на расчётный счёт.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="tag">FAQ</div>
+    <h2>Вопросы, которые обычно звучат дальше</h2>
+    <details><summary>А если приёмщик ответит клиенту неправильно — по цене или срокам?</summary><p>Многоуровневый контроль: внутренние тесты на ваших типовых обращениях, затем один канал под жёстким контролем — уведомление на каждый диалог, пауза и перехват в один клик. Цену «с потолка» агент не называет: только вилку или диагностику.</p></details>
+    <details><summary>Он сам напомнит клиенту о визите в чат?</summary><p>Честно: нет, автонапоминания в чат без связки он не ставит. Напоминание срабатывает из вашей системы — Google-календарь, воронка CRM или YClients. Мы подключаем приёмщика к тому, чем вы уже пользуетесь, и напоминания работают.</p></details>
+    <details><summary>У нас нет базы типовых вопросов. Это блокер?</summary><p>Нет. Стартуем на прайсе, окнах и истории переписок. Базу по симптомам собираем в проекте: 2–3 разговора с вашим мастером → структура «симптом → вероятные причины → вилка → точка эскалации».</p></details>
+    <details><summary>Сколько будут стоить токены при нашем потоке?</summary><p>Зависит от модели, глубины диалога и размера контекста — это разбираем на созвоне. Ориентир: ±20% от тарифа. Точная цена фиксируется в договоре после ТЗ.</p></details>
+    <details><summary>Что с персональными данными клиентов?</summary><p>Обработка — по 152-ФЗ, данные на территории РФ. После передачи решения ответственность за эксплуатацию переходит к заказчику — стандартное условие договора.</p></details>
+  </div>
+</section>
+
+<section id="cta" style="border-bottom:none">
+  <div class="wrap" style="text-align:center">
+    <div class="tag">Следующий шаг</div>
+    <h2>Покажем на ваших цифрах — с 10:00 до 21:00</h2>
+    <p class="sub" style="margin:0 auto 24px">Поговорим нормально: поймём, что вы хотите, и насколько ваши ожидания реалистичны. Небольшой аудит, покажем в работе демонстрационного бота — по существу, без воды. Напишите, когда вам удобно.</p>
+    <a class="btn" href="https://max.ru/id910614084910_bot" target="_blank" rel="noopener">Написать в MAX</a>
+    <a class="btn" href="https://telegram.me/southspecialnetwork_bot" target="_blank" rel="noopener" style="margin-left:10px">Написать в Телеграм</a>
+    <div style="margin-top:14px"><a class="btn ghost" href="tel:+79789419359">📞 +7 978 941-93-59</a></div>
+    <p class="note" style="margin-top:20px">Андрей Савченко · ЮгСпецСети | AI-Интеграция · ИП Савченко А.О., ИНН 910614084910</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h4>ЮгСпецСети | AI-Интеграция</h4>
+        <p>Агентство автоматизации бизнес-процессов<br>ИП Савченко Андрей Олегович<br>ИНН: 910614084910 · ОГРН: 325911200079953 · ОКВЭД: 62.01</p>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <p>📱 <a href="tel:+79789419359">+7 978 941-93-59</a><br>💬 <a href="https://max.ru/id910614084910_bot" target="_blank" rel="noopener">MAX</a><br>✈️ <a href="https://telegram.me/southspecialnetwork_bot" target="_blank" rel="noopener">Telegram-бот</a><br>🌐 <a href="https://югспецсети.рф">югспецсети.рф</a> · <a href="https://vk.com/southspecialnetwork">ВКонтакте</a></p>
+      </div>
+      <div>
+        <h4>Документы</h4>
+        <p><a href="https://югспецсети.рф/reglament">Регламент (оферта)</a><br><a href="https://югспецсети.рф/152">Персональные данные</a><br>Оператор ПД № 37410/91</p>
+      </div>
+    </div>
+    <div class="disc">
+      <div class="slogan">Мы не продаём технологии — мы разрабатываем решения под ваш бизнес.</div>
+      Материал подготовлен для владельцев автосервисов на основе практики внедрений ЮгСпецСети. Не является публичной офертой: итоговая конфигурация и стоимость определяются ТЗ после аудита (±30%). Результаты индивидуальны. ИИ-ассистенты требуют периода адаптации 30–90 дней. Применимое право: ГК РФ, 152-ФЗ, 38-ФЗ «О рекламе».<br><br>© ЮгСпецСети | AI-Интеграция, 2026
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Расчёт обновлён</div>
+
+<script>
+var dialog=[
+ {t:'u',who:'Клиент · 23:47',txt:'Добрый вечер! Стучит спереди справа на кочках, Шкода Октавия 2019. Когда можно подъехать посмотреть?'},
+ {t:'a',who:'Приёмщик',txt:'Добрый вечер! Принял, помогу. Уточню три момента: стук проявляется при повороте или и на прямой? Машина на ходу? Из какого вы города?'},
+ {t:'u',who:'Клиент',txt:'На прямой тоже. На ходу, но громко. Из Краснодара'},
+ {t:'sys',txt:'⚡ Ветка определена: ЗАПИСЬ → окно в YCLIENTS/CRM, саммари мастеру (Октавия 2019, стук спереди справа, на ходу, Краснодар)'},
+ {t:'a',who:'Приёмщик',txt:'Понял вас. По описанию похоже на стойку или ступицу — точно скажет диагностика минут за 20, при ремонте у нас она бесплатно. Могу записать вас на завтра: есть окна 10:00 и 14:00. Что удобнее?'},
+ {t:'u',who:'Клиент',txt:'Давайте на 10'},
+ {t:'sys',txt:'📋 Запись создана: завтра 10:00 · Октавия 2019 · стук спереди справа · телефон подтверждён · напоминание — через вашу систему (календарь/CRM/YClients)'},
+ {t:'a',who:'Приёмщик',txt:'Записал вас на завтра к 10:00. Напомню накануне через SMS/канал мастерской. Мастер уже видит вашу заявку. Что-то ещё подсказать?'}
+];
+var chatBody=document.getElementById('chatBody'),chatBtn=document.getElementById('chatBtn');
+var playing=false;
+function playChat(){
+ if(playing)return;playing=true;chatBody.innerHTML='';chatBtn.textContent='▶ Идёт диалог…';
+ dialog.forEach(function(m,i){
+   setTimeout(function(){
+     var d=document.createElement('div');
+     d.className='msg '+m.t;
+     d.innerHTML=(m.who?'<span class="who">'+m.who+'</span>':'')+m.txt;
+     chatBody.appendChild(d);
+     if(i===dialog.length-1){playing=false;chatBtn.textContent='↺ Повторить диалог';}
+   },i*1400);
+ });
+}
+chatBtn.addEventListener('click',playChat);
+
+function $(id){return document.getElementById(id);}
+function fmt(n){return Math.round(n).toLocaleString('ru-RU')+' ₽';}
+var ids=['leads','hours','rate','lost','check','margin','visits','cap'];
+function calc(){
+ var leads=+$('leads').value, hours=+$('hours').value, rate=+$('rate').value,
+     lost=+$('lost').value, check=+$('check').value, margin=+$('margin').value,
+     visits=+$('visits').value, cap=+$('cap').value;
+ $('vLeads').textContent=leads; $('vHours').textContent=hours; $('vRate').textContent=rate.toLocaleString('ru-RU');
+ $('vLost').textContent=lost; $('vCheck').textContent=check.toLocaleString('ru-RU');
+ $('vMargin').textContent=margin; $('vVisits').textContent=visits; $('vCap').textContent=cap;
+
+ var laborLoss=hours*30*rate;
+ var salesLoss=lost*check*margin/100;
+ var totalLoss=laborLoss+salesLoss;
+ var ltvLoss=lost*check*margin/100*visits;
+ var recovered=totalLoss*cap/100;
+
+ // Ориентир: база тарифа СТАРТ. Доплата за токены (модель, глубина, контекст) —
+ // на созвоне, вилка ±20%. Точная цена — в договоре после ТЗ.
+ var solution=19900;
+
+ var net=recovered-solution;
+ var contract=107460;
+ var payback=recovered>0?(contract/recovered):Infinity;
+ var roi6=contract>0?((recovered*6-contract)/contract*100):0;
+
+ $('rLabor').textContent=fmt(laborLoss);
+ $('rSales').textContent=fmt(salesLoss);
+ $('rLoss').textContent=fmt(totalLoss);
+ $('rLtv').textContent=fmt(ltvLoss);
+ $('rRec').textContent=fmt(recovered);
+ $('rNet').textContent=(net>=0?'+':'−')+fmt(Math.abs(net));
+ $('rNet').style.color=net>=0?'#2fd08c':'#ff5d5d';
+ if(!isFinite(payback)){$('rPay').textContent='—';}
+ else if(payback<0.4){$('rPay').textContent='менее 2 недель';}
+ else{$('rPay').textContent=payback.toFixed(1).replace('.',',')+' мес';}
+ $('rRoi').textContent='ROI за 6 месяцев: '+(roi6>0?'+':'')+Math.round(roi6)+'% · чистыми ≈ '+fmt(recovered*6-contract);
+}
+ids.forEach(function(id){$(id).addEventListener('input',function(){calc();showToast('Расчёт обновлён');});});
+
+function kpiText(){
+ var v=function(id){return $(id).textContent;};
+ return 'РАСЧЁТ С ЛЕНДИНГА ПОД СТО\n'+
+ '────────────────────────────────\n'+
+ 'ВХОДНЫЕ ПАРАМЕТРЫ:\n'+
+ '• Обращений в день: '+v('vLeads')+'\n'+
+ '• Часов на первичку в день: '+v('vHours')+' ч\n'+
+ '• Стоимость часа: '+v('vRate')+' ₽\n'+
+ '• Потерянных заявок/мес: '+v('vLost')+'\n'+
+ '• Средний чек: '+v('vCheck')+' ₽\n'+
+ '• Маржа: '+v('vMargin')+' %\n'+
+ '• Визитов в год от клиента: '+v('vVisits')+'\n'+
+ '• Целевое закрытие агентом: '+v('vCap')+' %\n'+
+ '────────────────────────────────\n'+
+ 'ПОТЕРИ СЕЙЧАС:\n'+
+ '• На рутине: '+v('rLabor')+'/мес\n'+
+ '• Упущенная прибыль: '+v('rSales')+'/мес\n'+
+ '• ИТОГО: '+v('rLoss')+'/мес\n'+
+ '• С учётом повторных визитов (год): '+v('rLtv')+'\n'+
+ '────────────────────────────────\n'+
+ 'РЕШЕНИЕ:\n'+
+ '• Тариф СТАРТ (вкл. 5 000 ₽ токенов): от 19 900 ₽/мес\n'+
+ '• Вилка с доплатой за токены: ±20%, точная цена — в договоре после ТЗ\n'+
+ '• Стоимость решения (ориентир): от 19 900 ₽/мес, вилка ±20%, точная — в договоре\n'+
+ '• Интеграция: 11 000 ₽ разово\n'+
+ '────────────────────────────────\n'+
+ 'ЭФФЕКТ:\n'+
+ '• Возвращаем агентом: '+v('rRec')+'/мес\n'+
+ '• Чистый выигрыш: '+v('rNet')+'/мес\n'+
+ '• Окупаемость аренды: '+v('rPay')+'\n'+
+ '• '+v('rRoi')+'\n'+
+ '────────────────────────────────\n'+
+ 'Расчёт ориентировочный, точные KPI — в ТЗ после аудита.';
+}
+
+function copyKpi(){
+ var text=kpiText();
+ function done(){showToast('Расчёт скопирован — отправьте его нам в MAX или Telegram');}
+ function fallback(){
+  var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');done();}catch(e){showToast('Не удалось скопировать — выделите текст вручную');}
+  document.body.removeChild(ta);
+ }
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fallback);}
+ else fallback();
+}
+document.getElementById('copyBtn').addEventListener('click',copyKpi);
+
+function showToast(msg){
+ var toast=$('toast');toast.textContent=msg;toast.style.color='';
+ toast.classList.add('on');
+ clearTimeout(window.__tt);window.__tt=setTimeout(function(){toast.classList.remove('on');},2600);
+}
+
+calc();
+</script>
+</body>
+</html>
