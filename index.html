@@ -571,10 +571,14 @@ function showToast(msg){
 calc();
 </script>
 <script>
-// Авто-высота для iFrame в Tilda: шлём высоту родителю при загрузке, ресайзе и раскрытии FAQ
+// Авто-высота для iFrame в Tilda: шлём ВЫСОТУ КОНТЕНТА (body, не viewport!),
+// только при реальном изменении — иначе петля бесконечного роста.
+var __lastH = 0;
 function postH(){
-  if(window.parent!==window){
-    var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+  if(window.parent===window) return;
+  var h = Math.min(document.body.scrollHeight, 25000);
+  if(Math.abs(h - __lastH) > 4){
+    __lastH = h;
     window.parent.postMessage({avtomasterHeight:h},'*');
   }
 }
