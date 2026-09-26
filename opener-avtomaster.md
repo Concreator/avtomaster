@@ -5,7 +5,6 @@
 
 Поговорите с живым демо-приёмщиком Александром прямо сейчас:
 MAX: https://max.ru/id910614084910_1_bot
-Telegram: https://telegram.me/resepshn24bot
 
 Посчитайте свои потери на нашем лендинге (калькулятор + примеры):
 https://concreator.github.io/avtomaster/
