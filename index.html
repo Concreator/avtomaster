@@ -570,5 +570,17 @@ function showToast(msg){
 
 calc();
 </script>
+<script>
+// Авто-высота для iFrame в Tilda: шлём высоту родителю при загрузке, ресайзе и раскрытии FAQ
+function postH(){
+  if(window.parent!==window){
+    var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    window.parent.postMessage({avtomasterHeight:h},'*');
+  }
+}
+window.addEventListener('load',function(){ postH(); setTimeout(postH,800); });
+window.addEventListener('resize',postH);
+document.querySelectorAll('details').forEach(function(d){ d.addEventListener('toggle',function(){ setTimeout(postH,50); }); });
+</script>
 </body>
 </html>
