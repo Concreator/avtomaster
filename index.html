@@ -552,14 +552,37 @@ function kpiText(){
 
 function copyKpi(){
  var text=kpiText();
- function done(){showToast('Расчёт скопирован — отправьте его нам в MAX или Telegram');}
+ var btn=document.getElementById('copyBtn');
+ function flashOk(msg){
+  showToast(msg);
+  var old=btn.textContent;
+  btn.textContent='✓ Скопировано — вставляйте куда нужно';
+  setTimeout(function(){btn.textContent=old;},4000);
+ }
+ function manualCopy(){
+  var oldBox=document.getElementById('copyFallback');
+  if(oldBox){oldBox.select();showToast('Выделите текст ниже и нажмите Ctrl+C');return;}
+  var ta=document.createElement('textarea');
+  ta.id='copyFallback';ta.value=text;ta.readOnly=true;
+  ta.style.cssText='width:100%;height:180px;margin-top:12px;background:#0c1118;color:#e8eef6;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px';
+  btn.parentNode.appendChild(ta);
+  ta.select();
+  showToast('Автокопирование заблокировано — выделите текст ниже и нажмите Ctrl+C');
+ }
+ function done(){flashOk('Расчёт скопирован — отправьте его нам в MAX или Telegram');}
  function fallback(){
   var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
   document.body.appendChild(ta);ta.select();
-  try{document.execCommand('copy');done();}catch(e){showToast('Не удалось скопировать — выделите текст вручную');}
-  document.body.removeChild(ta);
+  try{
+   var ok=document.execCommand('copy');
+   document.body.removeChild(ta);
+   if(ok){done();}else{manualCopy();}
+  }catch(e){
+   try{document.body.removeChild(ta);}catch(_){}
+   manualCopy();
+  }
  }
- if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fallback);}
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fallback();});}
  else fallback();
 }
 document.getElementById('copyBtn').addEventListener('click',copyKpi);
@@ -567,7 +590,7 @@ document.getElementById('copyBtn').addEventListener('click',copyKpi);
 function showToast(msg){
  var toast=$('toast');toast.textContent=msg;toast.style.color='';
  toast.classList.add('on');
- clearTimeout(window.__tt);window.__tt=setTimeout(function(){toast.classList.remove('on');},2600);
+ clearTimeout(window.__tt);window.__tt=setTimeout(function(){toast.classList.remove('on');},4500);
 }
 
 calc();
